@@ -1,21 +1,22 @@
-FROM debian:8.0 
-MAINTAINER Daniele Demichelis <demichelis@danidemi.com>
+FROM debian:latest
 
 # Install systems 
-RUN apt-get update; apt-get install procps -yy
-RUN apt-get purge procps -yy && apt-get clean -y && apt-get autoclean -y && apt-get autoremove -y
-RUN apt-get -y install curl
+RUN apt-get update \
+ && apt-get install -y \
+        apt-transport-https \
+        lsb-release \
+        build-essential \
+        curl \
+        git \
+        gnupg2 \
+ && apt-get clean 
 
 # Install node.js
-RUN curl -sL https://deb.nodesource.com/setup | bash -
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 RUN apt-get install -y nodejs
-RUN apt-get install -y build-essential
 
 # Install grunt
 RUN npm install -g grunt-cli
-
-# Install git
-RUN apt-get install -y git
 
 # Install reveal.js
 RUN git clone https://github.com/hakimel/reveal.js.git
