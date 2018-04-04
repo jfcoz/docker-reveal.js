@@ -12,15 +12,16 @@ RUN apt-get update \
  && apt-get clean 
 
 # Install node.js
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
-RUN apt-get install -y nodejs
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - \
+ && apt-get install -y nodejs
 
 # Install grunt
 RUN npm install -g grunt-cli
 
 # Install reveal.js
-RUN git clone https://github.com/hakimel/reveal.js.git
-RUN cd reveal.js; npm install
+RUN git clone https://github.com/hakimel/reveal.js.git \
+ && cd reveal.js \
+ && npm install
 
 COPY index.html /slides/
 RUN rm /reveal.js/index.html
@@ -39,16 +40,16 @@ COPY Gruntfile.js /reveal.js/
 # http://localhost:8000/reveal.js/css/print/pdf.css
 # http://localhost:8000/reveal.js/plugin/zoom-js
 
-RUN mkdir -p /pandoc/reveal.js/css/lib
-RUN mkdir -p /pandoc/reveal.js/js
-RUN mkdir -p /pandoc/reveal.js/lib/js
-RUN mkdir -p /pandoc/reveal.js/css/print
-RUN ["ln", "-s", "/reveal.js/css/reveal.css",     "/pandoc/reveal.js/css/reveal.min.css"]
-RUN ["ln", "-s", "/reveal.js/js/reveal.js"  ,     "/pandoc/reveal.js/js/reveal.min.js"]
-RUN ["ln", "-s", "/reveal.js/lib/js/head.min.js", "/pandoc/reveal.js/lib/js/head.min.js"]
-RUN ["ln", "-s", "/reveal.js/css/print/pdf.css",  "/pandoc/reveal.js/css/print/pdf.css"]
-RUN ["ln", "-s", "/reveal.js/css/theme/",         "/pandoc/reveal.js/css/theme"]
-RUN ["ln", "-s", "/reveal.js/plugin",             "/pandoc/reveal.js/plugin"]
+RUN mkdir -p /pandoc/reveal.js/css/lib \
+ && mkdir -p /pandoc/reveal.js/js \
+ && mkdir -p /pandoc/reveal.js/lib/js \
+ && mkdir -p /pandoc/reveal.js/css/print \
+ && ln -s /reveal.js/css/reveal.css /pandoc/reveal.js/css/reveal.min.css \
+ && ln -s /reveal.js/js/reveal.js /pandoc/reveal.js/js/reveal.min.js \
+ && ln -s /reveal.js/lib/js/head.min.js /pandoc/reveal.js/lib/js/head.min.js \
+ && ln -s /reveal.js/css/print/pdf.css /pandoc/reveal.js/css/print/pdf.css \
+ && ln -s /reveal.js/css/theme/ /pandoc/reveal.js/css/theme \
+ && ln -s /reveal.js/plugin /pandoc/reveal.js/plugin
 
 RUN apt-get -y install pandoc
 
