@@ -54,7 +54,8 @@ RUN mkdir -p /pandoc/reveal.js/css/lib \
 RUN apt-get -y install pandoc
 
 WORKDIR reveal.js 
-CMD grunt serve
+ADD entrypoint.sh /entrypoint.sh
+ENTRYPOINT /entrypoint.sh
 EXPOSE 8000
 
 
